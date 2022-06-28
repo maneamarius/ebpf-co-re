@@ -61,8 +61,7 @@ jobs:
           echo "finished listing"
           ls -la includes
           echo "finished listing includes"
-          sudo apt install -y libelf-dev || sudo dnf install -y elfutils-libelf-devel
-          make all
+#          make all
 #          brew upgrade vagrant
 #          brew upgrade --cask virtualbox
       - name: Create VM
@@ -77,9 +76,10 @@ jobs:
             vagrant up
       - name: Run Tests
         run: |
-          cd src/tests
-          ls -la
-          ls -la artifacts-5.15.27-glibc
-#          tar -xzvf artifacts-5.15.27-glibc
-#          bash src/tests/run_tests.sh
+          vagrant ssh -- -t "ls -la /vagrant"
+          vagrant ssh -- -t "sudo /vagrant/tools/install-test-dependencies.sh"
+          vagrant ssh -- -t "make all -C /vagrant/src"
+          vagrant ssh -- -t "cd /vagrant/src/tests && bash run_tests.sh"
+          vagrant ssh -- -t "cd /vagrant/src/tests && cat success.log"
+          vagrant ssh -- -t "cd /vagrant/src/tests && cat error.log"
 #          wget https://raw.githubusercontent.com/Ferroin/netdata/distro-test-keys/.github/data/distros.yml
