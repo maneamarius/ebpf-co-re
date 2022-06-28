@@ -43,7 +43,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          submodules: true
       - name: Retrieve Dist Tarball
         id: fetch-dist
         uses: actions/download-artifact@v3
@@ -61,8 +61,8 @@ jobs:
           echo "finished listing"
           ls -la includes
           echo "finished listing includes"
-          mv includes/* .
-          make test
+          sudo apt install -y libelf-dev || sudo dnf install -y elfutils-libelf-devel
+          make all
 #          brew upgrade vagrant
 #          brew upgrade --cask virtualbox
       - name: Create VM

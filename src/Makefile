@@ -56,12 +56,6 @@ $(APPS): %: %.o
 
 compress: $(APPS)
 
-
-#$(APPS): libbpf
-#	$(CC) $(CFLAGS) -L../.local_libbpf $^ -lbpf -lelf -lz -o $(OUTPUT)$@
-#
-#test: $(APPS)
-
 clean:
 	rm -f ../artifacts/netdata_ebpf-CO-RE-*.tar.xz
 	rm -f ../artifacts/netdata_ebpf-CO-RE-*.tar.xz.sha256sum
