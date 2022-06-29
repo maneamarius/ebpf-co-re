@@ -108,6 +108,7 @@ jobs:
         if: always()
         run: |
           vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh mount"
+          ls xyz
           if [[ $? -ne 0 ]]; then
               echo "TESTCASE FAILED!"
               echo "::set-output name=TEST_OUTCOME::FAIL"
