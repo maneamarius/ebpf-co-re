@@ -79,7 +79,7 @@ jobs:
           vagrant ssh -- -t "ls -la /vagrant"
           vagrant ssh -- -t "sudo /vagrant/tools/install-test-dependencies.sh"
           vagrant ssh -- -t "make all -C /vagrant/src"
-          vagrant ssh -- -t "cd /vagrant/src/tests && bash run_tests.sh"
+          vagrant ssh -- -t "cd /vagrant/src/tests && sudo bash run_tests.sh"
           vagrant ssh -- -t "cd /vagrant/src/tests && cat success.log"
           vagrant ssh -- -t "cd /vagrant/src/tests && cat error.log"
 #          wget https://raw.githubusercontent.com/Ferroin/netdata/distro-test-keys/.github/data/distros.yml
