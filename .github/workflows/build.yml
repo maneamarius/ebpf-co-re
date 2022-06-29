@@ -74,12 +74,70 @@ jobs:
             vagrant destroy ${{ matrix.name }} -f || true
             vagrant init ${{ matrix.name }} ${{ matrix.url }} --force
             vagrant up
-      - name: Run Tests
+      - name: Build test binaries
         run: |
-          vagrant ssh -- -t "ls -la /vagrant"
           vagrant ssh -- -t "sudo /vagrant/tools/install-test-dependencies.sh"
           vagrant ssh -- -t "make all -C /vagrant/src"
-          vagrant ssh -- -t "cd /vagrant/src/tests && sudo bash run_tests.sh"
-          vagrant ssh -- -t "cd /vagrant/src/tests && cat success.log"
-          vagrant ssh -- -t "cd /vagrant/src/tests && cat error.log"
+      - name: Run Test 'cachestat'
+        if: always()
+        run: |
+          vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh cachestat"
+      - name: Run Test 'dc'
+        if: always()
+        run: |
+          vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh dc"
+      - name: Run Test 'fd'
+        if: always()
+        run: |
+          vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh fd"
+      - name: Run Test 'mount'
+        if: always()
+        run: |
+          vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh mount"
+      - name: Run Test 'process'
+        if: always()
+        run: |
+          vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh process"
+      - name: Run Test 'shm'
+        if: always()
+        run: |
+          vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh shm"
+      - name: Run Test 'socket'
+        if: always()
+        run: |
+          vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh socket"
+      - name: Run Test 'swap'
+        if: always()
+        run: |
+          vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh swap"
+      - name: Run Test 'sync'
+        if: always()
+        run: |
+          vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh sync"
+      - name: Run Test 'vfs'
+        if: always()
+        run: |
+          vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh vfs"
+      - name: Run Test 'disk'
+        if: always()
+        run: |
+          vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh disk"
+      - name: Run Test 'hardirq'
+        if: always()
+        run: |
+          vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh hardirq"
+      - name: Run Test 'oomkill'
+        if: always()
+        run: |
+          vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh oomkill"
+      - name: Run Test 'softirq'
+        if: always()
+        run: |
+          vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh softirq"
+
+
+# ./filesystem
+# ./md
+#three_tests=( "cachestat" "dc" "fd" "mount" "process" "shm" "socket" "swap" "sync" "vfs" )
+#one_test=( "disk" "hardirq" "oomkill" "softirq" )
 #          wget https://raw.githubusercontent.com/Ferroin/netdata/distro-test-keys/.github/data/distros.yml
