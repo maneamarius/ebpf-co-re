@@ -79,124 +79,62 @@ jobs:
         run: |
           vagrant ssh -- -t "sudo /vagrant/tools/install-test-dependencies.sh"
           vagrant ssh -- -t "make all -C /vagrant/src"
-          echo "::set-output name=TEST_OUTCOME::PASS"
       - name: Run Test 'cachestat'
         if: always()
         run: |
           vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh cachestat"
-          if [[ $? -ne 0 ]]; then
-              echo "TESTCASE FAILED!"
-              echo "::set-output name=TEST_OUTCOME::FAIL"
-          fi
       - name: Run Test 'dc'
         if: always()
         run: |
           vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh dc"
-          if [[ $? -ne 0 ]]; then
-              echo "TESTCASE FAILED!"
-              echo "::set-output name=TEST_OUTCOME::FAIL"
-          fi
       - name: Run Test 'fd'
         if: always()
         run: |
           vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh fd"
-          if [[ $? -ne 0 ]]; then
-              echo "TESTCASE FAILED!"
-              echo "::set-output name=TEST_OUTCOME::FAIL"
-          fi
       - name: Run Test 'mount'
         if: always()
         run: |
           vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh mount"
-          ls xyz
-          if [[ $? -ne 0 ]]; then
-              echo "TESTCASE FAILED!"
-              echo "::set-output name=TEST_OUTCOME::FAIL"
-          fi
       - name: Run Test 'process'
         if: always()
         run: |
           vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh process"
-          if [[ $? -ne 0 ]]; then
-              echo "TESTCASE FAILED!"
-              echo "::set-output name=TEST_OUTCOME::FAIL"
-          fi
       - name: Run Test 'shm'
         if: always()
         run: |
           vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh shm"
-          if [[ $? -ne 0 ]]; then
-              echo "TESTCASE FAILED!"
-              echo "::set-output name=TEST_OUTCOME::FAIL"
-          fi
       - name: Run Test 'socket'
         if: always()
         run: |
           vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh socket"
-          if [[ $? -ne 0 ]]; then
-              echo "TESTCASE FAILED!"
-              echo "::set-output name=TEST_OUTCOME::FAIL"
-          fi
       - name: Run Test 'swap'
         if: always()
         run: |
           vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh swap"
-          if [[ $? -ne 0 ]]; then
-              echo "TESTCASE FAILED!"
-              echo "::set-output name=TEST_OUTCOME::FAIL"
-          fi
       - name: Run Test 'sync'
         if: always()
         run: |
           vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh sync"
-          if [[ $? -ne 0 ]]; then
-              echo "TESTCASE FAILED!"
-              echo "::set-output name=TEST_OUTCOME::FAIL"
-          fi
       - name: Run Test 'vfs'
         if: always()
         run: |
           vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh vfs"
-          if [[ $? -ne 0 ]]; then
-              echo "TESTCASE FAILED!"
-              echo "::set-output name=TEST_OUTCOME::FAIL"
-          fi
       - name: Run Test 'disk'
         if: always()
         run: |
           vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh disk"
-          if [[ $? -ne 0 ]]; then
-              echo "TESTCASE FAILED!"
-              echo "::set-output name=TEST_OUTCOME::FAIL"
-          fi
       - name: Run Test 'hardirq'
         if: always()
         run: |
           vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh hardirq"
-          if [[ $? -ne 0 ]]; then
-              echo "TESTCASE FAILED!"
-              echo "::set-output name=TEST_OUTCOME::FAIL"
-          fi
       - name: Run Test 'oomkill'
         if: always()
         run: |
           vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh oomkill"
-          if [[ $? -ne 0 ]]; then
-              echo "TESTCASE FAILED!"
-              echo "::set-output name=TEST_OUTCOME::FAIL"
-          fi
       - name: Run Test 'softirq'
         if: always()
         run: |
           vagrant ssh -- -t "cd /vagrant/src/tests && sudo ./run_tests.sh softirq"
-          if [[ $? -ne 0 ]]; then
-              echo "TESTCASE FAILED!"
-              echo "::set-output name=TEST_OUTCOME::FAIL"
-          fi
-      - name: Check Test Results
-        run: |
-          echo "Test result: ${{ steps.build.outputs.TEST_OUTCOME }}"
-          if [[ ${{ steps.build.outputs.TEST_OUTCOME }} != PASS ]]; then exit 1; fi
 
 # ./filesystem
 # ./md
