@@ -1,42 +1,50 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+custom_test=$1
 
 three_tests=( "cachestat" "dc" "fd" "mount" "process" "shm" "socket" "swap" "sync" "vfs" )
 one_test=( "disk" "hardirq" "oomkill" "softirq" )
 
-echo "Running all tests with three options"
-for i in "${three_tests[@]}" ; do
-    {
-        echo "================  Running $i  ================"
-        echo "---> Probe: "
-        "./$i" --probe
-        echo "---> Tracepoint: "
-        "./$i" --tracepoint
-        echo "---> Trampoline: "
-        "./$i" --trampoline
-        echo "  "
-    }  >> success.log 2>> error.log
-    #echo "================  Running $i  ================" >> success.log
-    #echo "---> Probe: " >> success.log
-    #"./$i" --probe >> success.log 2>> error.log
-    #echo "---> Tracepoint: " >> success.log
-    #"./$i" --tracepoint >> success.log 2>> error.log
-    #echo "---> Trampoline: " >> success.log
-    #"./$i" --trampoline >> success.log 2>> error.log
-    #echo "  " >>  success.log
-done
+run_three_tests() {
+    local test_to_run=$1
 
-echo "Running all tests with single option"
-for i in "${one_test[@]}" ; do
-    {
-        echo "================  Running $i  ================"
-        "./$i"
-        echo "  "
-    }
-    #echo "================  Running $i  ================" >> success.log
-    #"./$i" >> success.log 2>> error.log
-    #echo "  " >>  success.log
-done
+    echo "================  Running $test_to_run  ================"
+    echo "---> Probe: "
+    "./$test_to_run" --probe
+    echo "---> Tracepoint: "
+    "./$test_to_run" --tracepoint
+    echo "---> Trampoline: "
+    "./$test_to_run" --trampoline
+    echo "  "
+}
 
-echo "We are not running filesystem or mdflush, because they can generate error, please run them."
+run_one_test() {
+    local test_to_run=$1
 
-ls -lh error.log success.log
+    echo "================  Running $test_to_run  ================"
+    "./$test_to_run"
+    echo "  "
+}
+
+if [[ -n "$custom_test" ]]; then
+    if [[ " ${three_tests[*]} " =~ " ${custom_test} " ]]; then
+        run_three_tests $custom_test
+    fi
+    if [[ " ${one_test[*]} " =~ " ${custom_test} " ]]; then
+        run_one_test $custom_test
+    fi
+else
+    echo "Running all tests with three options"
+    for i in "${three_tests[@]}" ; do
+        run_three_tests $i
+    done
+
+    echo "Running all tests with single option"
+    for i in "${one_test[@]}" ; do
+        run_one_test $i
+    done
+    echo "We are not running filesystem or mdflush, because they can generate error, please run them."
+fi
+
+# ./filesystem
+# ./md
